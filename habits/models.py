@@ -13,15 +13,15 @@ class User(AbstractUser):
 
 
 class Habit(models.Model):
-    title = models.CharField(max_length=255, primary_key=True)
-    description = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
     goal = models.IntegerField(default=0)
-    unit = models.CharField(max_length=255)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="habits")
+    unit = models.CharField(max_length=255, null=True, blank=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Habit_Tracker(models.Model):
-    habit = models.ForeignKey(Habit, primary_key=True, on_delete=models.CASCADE, related_name="habit_trackers")
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="habit_trackers")
     date = models.DateField(default=datetime.date.today)
     tracking_unit = models.IntegerField(default=0)
 
