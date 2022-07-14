@@ -1,25 +1,31 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.constraints import UniqueConstraint
+import datetime
 
 
 class User(AbstractUser):
-    pass
+    first_name = models.CharField(max_length=255, primary_key=True)
+    last_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.username
 
 
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(db_index=True, auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class Habit(models.Model):
+    title = models.CharField(max_length=255, primary_key=True)
+    description = models.CharField(max_length=255)
+    goal = models.IntegerField(default=0)
+    unit = models.CharField(max_length=255)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="habits")
 
-    class Meta:
-        abstract = True
 
+class Habit_Tracker(models.Model):
+    habit = models.ForeignKey(Habit, primary_key=True, on_delete=models.CASCADE, related_name="habit_trackers")
+    date = models.DateField(default=datetime.date.today)
+    tracking_unit = models.IntegerField(default=0)
 
-class Habit(BaseModel):
-    steps_taken = models.IntegerField()
-    lines_written = models.IntegerField()
-    new_people = models.IntegerField()
-    pages_read = models.IntegerField()
-    hours_slept = models.DecimalField(max_digits=3, decimal_places=1)
+    class meta:
+        constriants = [
+            UniqueConstraint(fields=['habit', 'date'], name='unique_habit_date')
+            ]
