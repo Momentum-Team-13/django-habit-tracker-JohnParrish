@@ -4,4 +4,11 @@
 <div>
     <p>habits</p>
 </div>
+
+{% for album in albums %}
+<div>
+    <p>{{ habit.title }}</p>
+</div>
+{% endfor %}
+<p> <a href="{% url 'auth_logout' %}">Log Out</a></p>
 {% endblock %}

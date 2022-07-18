@@ -26,7 +26,11 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = env("SECRET_KEY")
+
+DEBUG = True
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
@@ -62,7 +66,7 @@ ROOT_URLCONF = 'habit_tracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
